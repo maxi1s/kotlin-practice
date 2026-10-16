@@ -1,5 +1,7 @@
 package day03_classes
 
+import kotlin.math.sqrt
+
 /*
  * ДЕНЬ 03 — Классы, конструкторы, свойства, init (08.10, Чт, 3–4 ч)
  *
@@ -80,8 +82,14 @@ class IntStack {
     val size: Int get() = items.size
     fun isEmpty(): Boolean = items.isEmpty()
     fun push(x: Int) { items.add(x) }
-    fun pop(): Int = {items.removeAt(items.size - 1)}.invoke()
-    fun peek(): Int = {items.last()}.invoke()
+    fun pop(): Int {
+        if (items.isEmpty()) throw NoSuchElementException("Stack is empty")
+        return items.removeAt(items.lastIndex)
+    }
+    fun peek(): Int {
+        if (items.isEmpty()) throw NoSuchElementException("Stack is empty")
+        return items[items.lastIndex]
+    }
 }
 
 /**
@@ -91,6 +99,6 @@ class IntStack {
 class Point(val x: Double, val y: Double) {
     constructor() : this(0.0, 0.0)
 
-    fun distanceTo(other: Point): Double = TODO()
+    fun distanceTo(other: Point): Double = sqrt(other.x*other.x+other.y*other.y)
     override fun toString(): String = "($x, $y)"
 }
