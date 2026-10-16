@@ -17,28 +17,31 @@ package day03_classes
  */
 class Rectangle(val width: Double, val height: Double) {
     init {
-        TODO("проверить стороны")
+        if (width>0 && height>0) {
+        } else {
+            throw IllegalArgumentException("Width and height must be greater than 0")
+        }
     }
 
-    fun area(): Double = TODO()
-    fun perimeter(): Double = TODO()
+    fun area(): Double = width*height
+    fun perimeter(): Double = 2*(width+height)
 
     /** Свойство с геттером, не функция. */
     val isSquare: Boolean
-        get() = TODO()
+        get() = width == height
 }
 
 /**
  * Счётчик. `value` можно читать снаружи, но менять — только через методы.
  * Сейчас `var value` открыт на запись — тест проверит только поведение, а ТЫ сделай сеттер private
- * (`var value: Int = 0` + `private set`). Это и есть инкапсуляция.
+ * (var value: Int = 0 + private set`). Это и есть инкапсуляция.
  */
 class Counter(start: Int = 0) {
     var value: Int = start
-
-    fun increment() { TODO() }
-    fun decrement() { TODO() }
-    fun reset() { TODO() }
+        private set
+    fun increment() {value++}
+    fun decrement() {value--}
+    fun reset() { value=0 }
 }
 
 /**
@@ -55,8 +58,17 @@ class BankAccount(val owner: String, initialBalance: Double = 0.0) {
     private val _history = mutableListOf<String>()
     val history: List<String> get() = _history
 
-    fun deposit(amount: Double) { TODO() }
-    fun withdraw(amount: Double) { TODO() }
+    fun deposit(amount: Double) {
+        if (amount > 0) {
+            _history.add("deposit $amount")
+            balance += amount
+        }
+        else throw IllegalArgumentException("Amount must be greater than 0") }
+    fun withdraw(amount: Double) { if (amount > 0) {
+        if (amount <= balance){
+            _history.add("withdraw $amount")
+            balance -= amount }
+        else throw IllegalStateException("Insufficient funds") } else throw IllegalArgumentException("Amount must be greater than 0") }
 }
 
 /**
@@ -65,11 +77,11 @@ class BankAccount(val owner: String, initialBalance: Double = 0.0) {
 class IntStack {
     private val items = mutableListOf<Int>()
 
-    val size: Int get() = TODO()
-    fun isEmpty(): Boolean = TODO()
-    fun push(x: Int) { TODO() }
-    fun pop(): Int = TODO()
-    fun peek(): Int = TODO()
+    val size: Int get() = items.size
+    fun isEmpty(): Boolean = items.isEmpty()
+    fun push(x: Int) { items.add(x) }
+    fun pop(): Int = {items.removeAt(items.size - 1)}.invoke()
+    fun peek(): Int = {items.last()}.invoke()
 }
 
 /**
@@ -77,8 +89,8 @@ class IntStack {
  * distanceTo — евклидово расстояние. toString -> "(x, y)", например "(1.0, 2.0)".
  */
 class Point(val x: Double, val y: Double) {
-    constructor() : this(TODO(), TODO())
+    constructor() : this(0.0, 0.0)
 
     fun distanceTo(other: Point): Double = TODO()
-    override fun toString(): String = TODO()
+    override fun toString(): String = "($x, $y)"
 }
